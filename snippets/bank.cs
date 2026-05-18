@@ -1,33 +1,4 @@
 
-// Base class for all banking domain errors
-class BankException : Exception
-{
-    public BankException(string message) : base(message) { }
-    public BankException(string message, Exception inner) : base(message, inner) { }
-}
-
-// More specific subclasses
-class InsufficientFundsException : BankException
-{
-    public decimal Balance { get; }
-    public decimal Amount { get; }
-
-    public InsufficientFundsException(decimal balance, decimal amount)
-        : base($"Cannot withdraw {amount:C} - balance is only {balance:C}.")
-    {
-        Balance = balance;
-        Amount = amount;
-    }
-}
-
-class AccountFrozenException : BankException
-{
-    public AccountFrozenException()
-        : base("This account has been frozen and cannot be used.") { }
-}
-
-// --- program ---
-
 decimal balance = 50.00m;
 bool frozen = false;
 
@@ -61,3 +32,32 @@ catch (FormatException)
 {
     Console.WriteLine("Please enter a valid amount.");
 }
+
+// Base class for all banking domain errors
+class BankException : Exception
+{
+    public BankException(string message) : base(message) { }
+    public BankException(string message, Exception inner) : base(message, inner) { }
+}
+
+// More specific subclasses
+class InsufficientFundsException : BankException
+{
+    public decimal Balance { get; }
+    public decimal Amount { get; }
+
+    public InsufficientFundsException(decimal balance, decimal amount)
+        : base($"Cannot withdraw {amount:C} - balance is only {balance:C}.")
+    {
+        Balance = balance;
+        Amount = amount;
+    }
+}
+
+class AccountFrozenException : BankException
+{
+    public AccountFrozenException()
+        : base("This account has been frozen and cannot be used.") { }
+}
+
+// --- program ---
